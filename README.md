@@ -1,6 +1,6 @@
 # PasswordME
 
-<img align="top" width="159px" src="./assets/img/logo.png">
+<img align="center" width="1300px" width="400px" src="./assets/img/logo.png">
 
 PasswordME is a tiny cross-platform password manager
 
