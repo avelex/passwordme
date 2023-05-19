@@ -10,8 +10,8 @@ import (
 
 const (
 	_DEFAULT_PASSWORD_LENGTH  = 12
-	_DEFAULT_PASSWORD_SYMBOLS = false
-	_DEFAULT_PASSWORD_NUMBERS = false
+	_DEFAULT_PASSWORD_SYMBOLS = true
+	_DEFAULT_PASSWORD_NUMBERS = true
 
 	_CHARS   = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890~!@#$%^&*()-_=+[{]}\\|;:'\",<.>/?"
 	_SYMBOLS = "~!@#$%^&*()-_=+[{]}\\|;:'\",<.>/?"
@@ -38,7 +38,7 @@ type Password struct {
 	Promts            []string
 }
 
-func (p *PasswordGenerator) Generate(master string, domain *url.URL, prompts []string, opts ...PasswordOpt) (string, error) {
+func (p *PasswordGenerator) Generate(master string, domain *url.URL, prompts []string, opts ...PasswordOpt) string {
 	password := &Password{
 		WithNumbers:       _DEFAULT_PASSWORD_NUMBERS,
 		WithSpecialSymbol: _DEFAULT_PASSWORD_SYMBOLS,
@@ -55,7 +55,7 @@ func (p *PasswordGenerator) Generate(master string, domain *url.URL, prompts []s
 	return generate(password)
 }
 
-func generate(password *Password) (string, error) {
+func generate(password *Password) string {
 	hash := sha256.New()
 	hash.Write([]byte(password.MasterPassword))
 	hash.Write([]byte(password.Host))
@@ -98,5 +98,5 @@ func generate(password *Password) (string, error) {
 		passwordBuilder.WriteByte(_SYMBOLS[cursor.Int64()])
 	}
 
-	return passwordBuilder.String(), nil
+	return passwordBuilder.String()
 }
