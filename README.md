@@ -2,7 +2,7 @@
 
 # PasswordME
 
-PasswordME is a tiny cross-platform password manager
+PasswordME is a tiny cross-platform password manager, which can generate passwords for different services using your favorite password
 
 **The key features:**
 - hack-resistant
@@ -10,7 +10,10 @@ PasswordME is a tiny cross-platform password manager
 - on-flight generation
 - save password in encrypt file (soon)
 
-## Goal
+## Overview
+<img align="center" width="1300px" width="400px" src="./assets/img/scheme.jpg">
+
+## Problem
 I'm sure most of us have one good password that we came up with once and now use everywhere, in all services. 
 Clearly this is a bad thing.
 
