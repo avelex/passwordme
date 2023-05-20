@@ -22,3 +22,7 @@ With the streamlining of technology, hackers are finding more and more vulnerabi
 And now imagine if your only "good" password was leaked in some database. I think you know what a malicious person can do with it.
 
 **PasswordME will help to solve this problem.**
+
+
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
