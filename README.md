@@ -1,4 +1,4 @@
-<img align="center" width="1300px" width="400px" src="./assets/img/logo.png">
+<img align="center" width="800px" width="400px" src="./assets/img/logo.png">
 
 # PasswordME
 
@@ -11,7 +11,7 @@ PasswordME is a tiny cross-platform password manager, which can generate passwor
 - save password in encrypt file (soon)
 
 ## Overview
-<img align="center" width="1300px" width="400px" src="./assets/img/scheme.jpg">
+<img align="center" width="450" width="450" src="./assets/img/scheme.jpg">
 
 ## Problem
 I'm sure most of us have one good password that we came up with once and now use everywhere, in all services. 
