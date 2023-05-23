@@ -1,14 +1,31 @@
 package generator
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
 	"fmt"
-	"net/url"
+	"strconv"
+	"strings"
 	"testing"
 )
 
 func TestGenerate(t *testing.T) {
-	pg := PasswordGenerator{}
-	url, _ := url.Parse("https://github.com")
-	password := pg.Generate("my_usually_password", url, []string{"avelex"}, WithLength(12))
-	fmt.Printf("your fantastic password: %v\n", password)
+	builder := strings.Builder{}
+	b := sha256.Sum256(nil)
+	str := hex.EncodeToString(b[:])
+	fmt.Printf("str: %v\n", str)
+	for i := 0; i < len(str); i += 2 {
+		end := i + 2
+		if end > len(str) {
+			end = len(str)
+		}
+		toParse := str[i:end]
+		fmt.Printf("toParse: %v\n", toParse)
+		num, _ := strconv.ParseInt(str[i:end], 16, 64)
+		fmt.Printf("num: %v\n", num)
+		cursor := int(num) % len(_CHARS)
+		builder.WriteByte(_CHARS[cursor])
+	}
+
+	fmt.Printf("builder.String(): %v\n", builder.String())
 }

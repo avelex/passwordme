@@ -2,10 +2,13 @@ package generator
 
 import (
 	"crypto/sha256"
+	"encoding/hex"
 	"math/big"
 	"net/url"
+	"strconv"
 	"strings"
 	"unicode"
+	"unicode/utf8"
 )
 
 const (
@@ -21,15 +24,15 @@ const (
 type PasswordGenerator struct {
 }
 
-type PasswordOpt func(p *Password)
+type PasswordOpt func(p *password)
 
 func WithLength(length uint8) PasswordOpt {
-	return func(p *Password) {
+	return func(p *password) {
 		p.Length = length
 	}
 }
 
-type Password struct {
+type password struct {
 	WithNumbers       bool
 	WithSpecialSymbol bool
 	Length            uint8
@@ -39,7 +42,7 @@ type Password struct {
 }
 
 func (p *PasswordGenerator) Generate(master string, domain *url.URL, prompts []string, opts ...PasswordOpt) string {
-	password := &Password{
+	password := &password{
 		WithNumbers:       _DEFAULT_PASSWORD_NUMBERS,
 		WithSpecialSymbol: _DEFAULT_PASSWORD_SYMBOLS,
 		Length:            _DEFAULT_PASSWORD_LENGTH,
@@ -55,27 +58,32 @@ func (p *PasswordGenerator) Generate(master string, domain *url.URL, prompts []s
 	return generate(password)
 }
 
-func generate(password *Password) string {
+func generate(password *password) string {
 	hash := sha256.New()
 	hash.Write([]byte(password.MasterPassword))
 	hash.Write([]byte(password.Host))
-	for _, promt := range password.Promts {
-		hash.Write([]byte(promt))
+	for _, prompt := range password.Promts {
+		hash.Write([]byte(prompt))
 	}
 
 	hashBytes := hash.Sum(nil)
-	bigNum := new(big.Int).SetBytes(hashBytes)
+
+	passwordNumber := new(big.Int).SetBytes(hashBytes)
+	passwordNumberHex := hex.EncodeToString(hashBytes)
 
 	passwordBuilder := strings.Builder{}
 	passwordBuilder.Grow(int(password.Length))
 
-	add := big.NewInt(0)
-	sum := new(big.Int).Add(add, bigNum)
-	for i := 0; i < int(password.Length); i++ {
-		sum = new(big.Int).Add(add, sum)
-		cursor := new(big.Int).Mod(sum, big.NewInt(int64(len(_CHARS))))
-		passwordBuilder.WriteByte(_CHARS[cursor.Int64()])
-		add = new(big.Int).Add(add, cursor)
+	shift := len(passwordNumberHex) / int(password.Length)
+
+	for i := 0; i < len(passwordNumberHex); i += shift {
+		end := i + shift
+		if end > len(passwordNumberHex) {
+			end = len(passwordNumberHex)
+		}
+		num, _ := strconv.ParseInt(passwordNumberHex[i:end], 16, 64)
+		cursor := int(num) % len(_CHARS)
+		passwordBuilder.WriteByte(_CHARS[cursor])
 	}
 
 	if password.WithNumbers {
@@ -88,15 +96,36 @@ func generate(password *Password) string {
 		}
 
 		if !digitNotExists {
-			cursor := new(big.Int).Mod(sum, big.NewInt(int64(len(_NUMBERS))))
-			passwordBuilder.WriteByte(_NUMBERS[cursor.Int64()])
+			passwordBuilder.WriteByte(chooseChar(passwordNumber, _NUMBERS))
 		}
 	}
 
 	if password.WithSpecialSymbol && !strings.ContainsAny(passwordBuilder.String(), _SYMBOLS) {
-		cursor := new(big.Int).Mod(sum, big.NewInt(int64(len(_SYMBOLS))))
-		passwordBuilder.WriteByte(_SYMBOLS[cursor.Int64()])
+		passwordBuilder.WriteByte(chooseChar(passwordNumber, _SYMBOLS))
 	}
 
 	return passwordBuilder.String()
+}
+
+func charSequences(passwordNumberHex string, length int) string {
+	builder := strings.Builder{}
+
+	shift := len(passwordNumberHex) / length
+
+	for i := 0; i < len(passwordNumberHex); i += shift {
+		end := i + shift
+		if end > len(passwordNumberHex) {
+			end = len(passwordNumberHex)
+		}
+		num, _ := strconv.ParseInt(passwordNumberHex[i:end], 16, 64)
+		cursor := int(num) % len(_CHARS)
+		builder.WriteByte(_CHARS[cursor])
+	}
+
+	return builder.String()
+}
+
+func chooseChar(passwordNumber *big.Int, charset string) byte {
+	mod := new(big.Int).Mod(passwordNumber, big.NewInt(int64(utf8.RuneCountInString(charset))))
+	return charset[mod.Int64()]
 }

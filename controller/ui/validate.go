@@ -1,8 +1,9 @@
 package ui
 
-import "net/url"
+import (
+	"github.com/go-playground/validator"
+)
 
 func isValidUrl(str string) bool {
-	u, err := url.Parse(str)
-	return err == nil && u.Scheme != "" && u.Host != ""
+	return validator.New().Var(str, "hostname") == nil
 }
