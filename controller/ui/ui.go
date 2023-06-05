@@ -20,9 +20,10 @@ type uiController struct {
 	screens                map[string]Screen
 }
 
-func NewUI(generator *generator.PasswordGenerator, icon, logo, background []byte) *uiController {
+func NewUI(generator *generator.PasswordGenerator, store *store.PasswordStore, icon, logo, background []byte) *uiController {
 	controller := &uiController{
 		generator:  generator,
+		store:      store,
 		icon:       icon,
 		logo:       logo,
 		background: background,
@@ -64,7 +65,7 @@ func (ui *uiController) init() fyne.App {
 
 	unlockButton := widget.NewButton("Unlock", func() {
 		split := container.NewHSplit(
-			container.NewBorder(nil, widget.NewLabel(app.Metadata().Version), nil, nil, nav),
+			container.NewBorder(nil, widget.NewLabel("v"+app.Metadata().Version), nil, nil, nav),
 			content,
 		)
 		split.Offset = 0.25
