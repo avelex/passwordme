@@ -49,8 +49,8 @@ func (s *PasswordStore) Opened() bool {
 	return s.passfiles[0].Opened()
 }
 
-func (s *PasswordStore) Import() {
-
+func (s *PasswordStore) Import() error {
+	return errors.New("not implemented")
 }
 
 // now it take first password file and append password into it

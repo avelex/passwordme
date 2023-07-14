@@ -53,7 +53,7 @@ func (p *PasswordGenerator) Generate(master string, domain *url.URL, prompts []s
 		WithSpecialSymbol: _DEFAULT_PASSWORD_SYMBOLS,
 		Length:            _DEFAULT_PASSWORD_LENGTH,
 		MasterPassword:    master,
-		Host:              domain.Host,
+		Host:              domain.Hostname(),
 		Prompts:           prompts,
 	}
 

@@ -20,7 +20,7 @@ func (ui *uiController) passwordsScreen() Screen {
 }
 
 func (ui *uiController) passwordsView(w fyne.Window) fyne.CanvasObject {
-	if !ui.store.Exists() {
+	if !ui.app.PassfileExists() {
 		passwordEntry := widget.NewPasswordEntry()
 		passwordEntry.Validator = func(s string) error {
 			if strings.TrimSpace(s) == "" {
@@ -50,7 +50,7 @@ func (ui *uiController) passwordsView(w fyne.Window) fyne.CanvasObject {
 		)
 
 		createStoreButton.OnTapped = func() {
-			if err := ui.store.Create(passwordEntry.Text); err != nil {
+			if err := ui.app.CreatePassfile(passwordEntry.Text); err != nil {
 				return
 			}
 			content.Objects = []fyne.CanvasObject{ui.passowrdList(w)}
@@ -60,7 +60,7 @@ func (ui *uiController) passwordsView(w fyne.Window) fyne.CanvasObject {
 		return content
 	}
 
-	if !ui.store.Opened() {
+	if !ui.app.PassfileOpened() {
 		content := container.NewMax(
 			container.NewCenter(widget.NewLabel("Locked")),
 		)
@@ -77,7 +77,7 @@ func (ui *uiController) passwordsView(w fyne.Window) fyne.CanvasObject {
 					return
 				}
 
-				if err := ui.store.Open(masterPasswordEntry.Text); err != nil {
+				if err := ui.app.OpenPassfile(masterPasswordEntry.Text); err != nil {
 					return
 				}
 
@@ -97,7 +97,7 @@ func (ui *uiController) passwordsView(w fyne.Window) fyne.CanvasObject {
 }
 
 func (ui *uiController) passowrdList(w fyne.Window) fyne.CanvasObject {
-	passwords, _ := ui.store.List()
+	passwords, _ := ui.app.ListPasswords()
 
 	list := widget.NewList(
 		func() int { return len(passwords) },
@@ -110,7 +110,7 @@ func (ui *uiController) passowrdList(w fyne.Window) fyne.CanvasObject {
 	)
 
 	list.OnSelected = func(id widget.ListItemID) {
-		password, err := ui.store.ShowPassword(passwords[id])
+		password, err := ui.app.ShowPassword(passwords[id])
 		if err != nil {
 			log.Println(err)
 			return

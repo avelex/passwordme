@@ -85,7 +85,7 @@ func (ui *uiController) passwordGenerationView(_ fyne.Window) fyne.CanvasObject 
 			opt = generator.WithLength32()
 		}
 
-		password := ui.generator.Generate(master, url, prompts, opt)
+		password := ui.app.GeneratePassword(master, url, prompts, opt)
 
 		if len(grid.Objects) > 1 {
 			grid.Remove(grid.Objects[len(grid.Objects)-1])
@@ -99,7 +99,7 @@ func (ui *uiController) passwordGenerationView(_ fyne.Window) fyne.CanvasObject 
 		yourPasswordText.TextStyle = fyne.TextStyle{Bold: true, Symbol: true}
 
 		savePasswordButton := widget.NewButton("Save", func() {
-			ui.store.Save(domain, password)
+			ui.app.SavePassword(domain, password)
 		})
 
 		youPasswordLayout := container.New(layout.NewFormLayout(),

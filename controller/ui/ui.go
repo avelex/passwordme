@@ -9,21 +9,18 @@ import (
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
-	"github.com/avelex/passwordme/internal/generator"
-	"github.com/avelex/passwordme/internal/store"
+	passwordApp "github.com/avelex/passwordme/internal/app"
 )
 
 type uiController struct {
-	store                  *store.PasswordStore
-	generator              *generator.PasswordGenerator
+	app                    passwordApp.PasswordMeUsecases
 	logo, icon, background []byte
 	screens                map[string]Screen
 }
 
-func NewUI(generator *generator.PasswordGenerator, store *store.PasswordStore, icon, logo, background []byte) *uiController {
+func NewUI(app passwordApp.PasswordMeUsecases, icon, logo, background []byte) *uiController {
 	controller := &uiController{
-		generator:  generator,
-		store:      store,
+		app:        app,
 		icon:       icon,
 		logo:       logo,
 		background: background,
