@@ -31,8 +31,8 @@ And now imagine if your only "good" password was leaked in some database. I thin
 - [x] Basic Architecture
 - [x] Fyne GUI v1
 - [x] On-Flight Generation v1
-- [ ] Passwords Repository
-- [ ] Save just-generated password 
+- [x] Passwords Repository
+- [x] Save just-generated password 
 - [ ] PasswordME CLI v1
 
 
