@@ -35,6 +35,13 @@ And now imagine if your only "good" password was leaked in some database. I thin
 - [x] Save just-generated password 
 - [ ] PasswordME CLI v1
 
+## Installing 
+```
+go install fyne.io/fyne/v2/cmd/fyne@latest
+git clone https://github.com/avelex/passwordme
+cd passwordme/
+make build
+```
 
 
 ## Contributing
