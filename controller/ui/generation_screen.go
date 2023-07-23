@@ -35,9 +35,23 @@ func (ui *uiController) passwordGenerationView(_ fyne.Window) fyne.CanvasObject 
 	siteDomainEntry := widget.NewEntry()
 	siteDomainEntry.SetPlaceHolder("github.com")
 	siteDomainEntry.Validator = func(s string) error {
+		defer siteDomainEntry.Refresh()
+
 		if strings.TrimSpace(s) == "" {
 			return errors.New("required domain")
 		}
+
+		u, err := url.Parse(s)
+		if err != nil {
+			return err
+		}
+
+		split := strings.Split(s, u.RequestURI())
+		s = split[0]
+
+		scheme := u.Scheme + "://"
+		s = strings.TrimPrefix(s, scheme)
+		siteDomainEntry.Text = s
 
 		if !isValidUrl(s) {
 			return errors.New("invalid domain")
