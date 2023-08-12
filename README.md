@@ -24,11 +24,11 @@ And now imagine if your only "good" password was leaked in some database. I thin
 **PasswordME will help to solve this problem.**
 
 ## Implementation Status
-- [x] Basic Architecture
 - [x] Fyne GUI v1
-- [x] On-Flight Generation v1
+- [x] On-Flight Generation
 - [x] Passwords Repository
 - [x] Save just-generated password 
+- [x] React GUI v2
 - [ ] PasswordME CLI v1
 
 ## Installing 
