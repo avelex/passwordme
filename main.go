@@ -1,23 +1,25 @@
 package main
 
 import (
-	_ "embed"
+	"embed"
 	"fmt"
+	"log"
 	"os"
 
-	"github.com/avelex/passwordme/controller/ui"
 	"github.com/avelex/passwordme/internal/app"
 	"github.com/avelex/passwordme/internal/generator"
 	"github.com/avelex/passwordme/internal/store"
+	"github.com/wailsapp/wails/v2"
+	"github.com/wailsapp/wails/v2/pkg/options"
+	"github.com/wailsapp/wails/v2/pkg/options/assetserver"
+	"github.com/wailsapp/wails/v2/pkg/options/linux"
 )
 
 var (
 	//go:embed assets/img/Icon.png
 	icon []byte
-	//go:embed assets/img/logo.png
-	logo []byte
-	//go:embed assets/img/background.png
-	background []byte
+	//go:embed all:frontend/dist
+	assets embed.FS
 )
 
 func main() {
@@ -32,6 +34,26 @@ func main() {
 
 	app := app.NewApp(generator, store)
 
-	ui := ui.NewUI(app, icon, logo, background)
-	ui.Run()
+	err = wails.Run(&options.App{
+		Title:         "PasswordME",
+		Width:         800,
+		Height:        600,
+		MinWidth:      800,
+		MinHeight:     600,
+		MaxWidth:      800,
+		MaxHeight:     600,
+		DisableResize: true,
+		AssetServer: &assetserver.Options{
+			Assets: assets,
+		},
+		Bind: []interface{}{
+			app,
+		},
+		Linux: &linux.Options{
+			Icon: icon,
+		},
+	})
+	if err != nil {
+		log.Fatal(err)
+	}
 }

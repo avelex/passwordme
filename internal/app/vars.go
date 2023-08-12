@@ -4,7 +4,7 @@ import "strings"
 
 var (
 	name    string = "PasswordME"
-	version string
+	version string = "dev"
 )
 
 func Name() string {

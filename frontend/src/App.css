@@ -1,0 +1,71 @@
+html {
+  height: 100%;
+  overflow: hidden;
+}
+
+.App {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+
+.sidebar-link {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+  transition: background-color 0.5s;
+  flex-direction: column;
+  border-bottom: 2px solid #000000;
+  height: 10px;
+  padding: 1px 0
+}
+
+
+
+.sidebar-link:hover {
+  background-color: #b7d5f6;
+}
+
+
+
+  .content {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  
+  .sidebar-logo {
+    text-align: center;
+    border-bottom: 2px solid #000000
+  }
+
+  .logo-image {
+    max-width: 250px; /* Укажите желаемую ширину */
+  }
+  
+
+  .version {
+    text-align: center;
+    padding-top: 430px;
+    font-size: 14px;
+    color: #888888;
+  }
+
+  .separator {
+    width: 2px;
+    background-color: #000000;
+    margin: 10px 0;
+  }

@@ -8,16 +8,16 @@ APP_NAME = PasswordME
 CLI_NAME = passwordme
 
 INTERNAL_APP_PATH = github.com/avelex/passwordme/internal/app
-BUILD_INFO = -s -w -X '$(INTERNAL_APP_PATH).version=$(GIT_VERSION)' -X '$(INTERNAL_APP_PATH).name=$(APP_NAME)'
+BUILD_INFO = "-s -w -X '$(INTERNAL_APP_PATH).version=$(GIT_VERSION)' -X '$(INTERNAL_APP_PATH).name=$(APP_NAME)'"
 
-build:
-	CGO_ENABLED=1 fyne package -release -icon $(ICON) -name $(APP_NAME) --appID $(APP_ID) --appVersion $(APP_VERSION)
+localbuild:
+	wails build -ldflags $(BUILD_INFO) -clean
 
 linux:
-	CGO_ENABLED=1 fyne package -release -os linux -icon $(ICON) -name $(APP_NAME) --appID $(APP_ID) --appVersion $(APP_VERSION)
+	wails build -ldflags $(BUILD_INFO) -platform linux/amd64 -clean
 
 windows:
-	CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc CXX=x86_64-w64-mingw32-g++ fyne package -release -os windows -icon $(ICON) -name $(APP_NAME) --appID $(APP_ID) --appVersion $(APP_VERSION)
+	wails build -ldflags $(BUILD_INFO) -platform windows/amd64 -clean
 
 cli:
 	go build -o $(CLI_NAME) -ldflags="$(BUILD_INFO)" ./cmd/* 
