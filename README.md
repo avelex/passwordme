@@ -37,7 +37,7 @@ And now imagine if your only "good" password was leaked in some database. I thin
 
 ## Installing 
 ```
-go install fyne.io/fyne/v2/cmd/fyne@latest
+go install github.com/wailsapp/wails/v2/cmd/wails@latest
 git clone https://github.com/avelex/passwordme
 cd passwordme/
 make build

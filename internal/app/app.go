@@ -50,8 +50,18 @@ func NewApp(gen *generator.PasswordGenerator, store *store.PasswordStore) *app {
 	}
 }
 
-func (a *app) GeneratePassword(master string, domain *url.URL, prompts []string, opts ...generator.PasswordOpt) string {
-	return a.generator.Generate(master, domain, prompts, opts...)
+func (a *app) GeneratePassword(master, domain, length string, prompts []string) string {
+	url := &url.URL{
+		Host: domain,
+	}
+
+	opt := generator.WithLength16()
+	switch length {
+	case "32":
+		opt = generator.WithLength32()
+	}
+
+	return a.generator.Generate(master, url, prompts, opt)
 }
 
 func (a *app) CreatePassfile(masterPassword string) error {
@@ -88,4 +98,8 @@ func (a *app) SavePassword(name string, password string) error {
 
 func (a *app) ShowPassword(name string) (string, error) {
 	return a.store.ShowPassword(name)
+}
+
+func (a *app) Version() string {
+	return Version()
 }

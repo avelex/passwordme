@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap');
+
+
+html {
+    background-color: rgb(255, 255, 255);
+    text-align: center;
+    color: white;
+}
+
+body {
+    margin: 0;
+    color: rgb(0, 0, 0);
+    font-family: 'Montserrat', sans-serif;
+}
+
+@font-face {
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 400;
+    src: local(""),
+    url("assets/fonts/nunito-v16-latin-regular.woff2") format("woff2");
+}
+
+#app {
+    height: 100vh;
+    text-align: center;
+}
