@@ -13,6 +13,9 @@ PasswordME is a tiny cross-platform password manager, which can generate passwor
 ## Overview
 <img align="center" width="450" width="450" src="./assets/img/scheme.jpg">
 
+## Screenshots
+<img align="center" width="450" width="450" src="./assets/img/Screenshot_PasswordME.png">
+
 ## Problem
 I'm sure most of us have one good password that we came up with once and now use everywhere, in all services. 
 Clearly this is a bad thing.
